@@ -13,7 +13,7 @@ class ospos (
     cwd     => '/tmp',
   }
   exec {'Uncompress OSPOS package':
-    command => "/bin/tar zxvf opensourcepos-$version.tar.gz",
+    command => "/bin/tar zxvf $version.tar.gz",
     cwd     => '/tmp',
     require => Exec["Download OSPOS package"],
   }
@@ -31,10 +31,12 @@ class ospos (
         mode    => "0644",
         replace => "true",
         source  => 'puppet:///modules/ospos/.htaccess_root',
+        require => Exec["Copy OSPOS dir into install dir"],
   }
   file { "$install_dir/public/.htaccess":
         mode    => "0644",
         replace => "true",
         source  => 'puppet:///modules/ospos/.htaccess_public',
+        require => Exec["Copy OSPOS dir into install dir"],
   }
 }
