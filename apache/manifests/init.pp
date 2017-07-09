@@ -1,7 +1,6 @@
 class apache {
   package { 'apache2':
     ensure  => present,
-    notify  => Class['wordpress'],
   }
   service { 'apache2':
     ensure  => running,
