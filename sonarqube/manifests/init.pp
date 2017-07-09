@@ -39,6 +39,11 @@ class sonarqube (
     cwd     => '/tmp',
     require => [File["$install_dir"],Exec["Uncompress SonarQube package"]],
   }
+  exec { 'Install GitHub plugin':
+    command => "/usr/bin/wget https://sonarsource.bintray.com/Distribution/sonar-github-plugin/sonar-github-plugin-1.4.1.822.jar",
+    cwd     => "$install_dir/extensions/plugins",
+    require => Exec["Copy Sonarqube dir into install dir"],
+  }
   file{"$install_dir/conf/sonar.properties":
     ensure  => present,
     content => template("sonarqube/sonar.properties.erb"),
