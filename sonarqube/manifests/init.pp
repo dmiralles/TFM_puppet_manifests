@@ -2,7 +2,7 @@ class sonarqube (
   $install_dir  = '/opt/sonarqube',
   $sonar_db_user = 'sonaruser',
   $sonar_db_pass = 'sonarpass123',
-  $sonar_db_url  = 'test',
+  $sonar_db_url  = 'puppeagent-mysql.tfm',
 ){
   exec {"add ppa":
     command => "/usr/bin/add-apt-repository ppa:openjdk-r/ppa",
