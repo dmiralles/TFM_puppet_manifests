@@ -1,7 +1,7 @@
 class ospos (
   $install_dir    = '/var/www/html',
   $version        = '3.0.2',
-  $ospos_db_url   = '',
+  $ospos_db_url   = 'puppetagent-mysql.tfm',
   $ospos_db_user  = 'osposuser',
   $ospos_db_pass  = 'ospospass',
   $ospos_db_name  = 'osposdb',
