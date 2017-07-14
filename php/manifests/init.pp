@@ -1,14 +1,14 @@
 class php {
-        package {'php7.0':
+        package {'php5.6':
                 ensure => present,
         }
-        package {'php7.0-mysql':
+        package {'php5.6-mysql':
                 ensure => present,
         }
-        package {'libapache2-mod-php7.0':
+        package {'libapache2-mod-php5.6':
                 ensure => present,
         }
-        package {'php7.0-mcrypt':
+        package {'php5.6-mcrypt':
                 ensure => present,
         }
 }
