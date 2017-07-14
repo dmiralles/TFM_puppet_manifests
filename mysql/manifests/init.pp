@@ -19,7 +19,7 @@ class mysql (
                 name =>'mysql',
                 ensure  => 'running',
                 enable  => true,
-                require => Package['mysql-server','mysql-common'],File['/etc/mysql/mysql.conf.d/mysqld.cnf'],
+                require => [Package['mysql-server','mysql-common'],File['/etc/mysql/mysql.conf.d/mysqld.cnf']],
         }
         exec { "Set mysql-password":
                 unless => "mysqladmin -uroot -p$mysql_password status",
