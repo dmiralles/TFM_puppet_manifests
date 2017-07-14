@@ -19,7 +19,7 @@ class mysql (
                 name =>'mysql',
                 ensure  => 'running',
                 enable  => true,
-                require => Package['mysql-server','mysql-common'],
+                require => Package['mysql-server','mysql-common'],File[''],
         }
         exec { "Set mysql-password":
                 unless => "mysqladmin -uroot -p$mysql_password status",
@@ -54,5 +54,11 @@ class mysql (
                 path => ["/bin", "/usr/bin"],
                 command => "mysql -u root -p$mysql_password $ospos_db_name < /tmp/database.sql",
                 require => Exec["Create OSPOS user for database"],
+        }
+        file {'/etc/mysql/mysql.conf.d/mysqld.cnf':
+                mode    => "0644",
+                replace => "true",
+                source  => 'puppet:///modules/mysql/mysqld.cnf',
+                notify  => Service["mysqld"],
         }
 }
