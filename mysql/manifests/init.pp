@@ -19,11 +19,7 @@ class mysql (
                 name =>'mysql',
                 ensure  => 'running',
                 enable  => true,
-                require => Package['mysql-server','mysql-common'],
-        }
-        exec {'stop-mysql':
-                command => '/bin/systemctl stop mysql',
-                onlyif  => '/bin/systemctl status mysql',
+                require => Package['mysql-server','python-mysqldb','mysql-common'],
         }
         exec { "Set mysql-password":
                 unless => "mysqladmin -uroot -p$mysql_password status",
@@ -59,8 +55,12 @@ class mysql (
                 command => "mysql -u root -p$mysql_password $ospos_db_name < /tmp/database.sql",
                 require => Exec["Create OSPOS user for database"],
         }
+        exec {'stop-mysql':
+                command => '/bin/systemctl stop mysql',
+                onlyif  => '/bin/systemctl status mysql',
+                require => Package['mysql-server','python-mysqldb','mysql-common'],
+        }~>
         file {'/etc/mysql/mysql.conf.d/mysqld.cnf':
-                before  => Exec['stop-mysql'],
                 mode    => "0644",
                 replace => "true",
                 source  => 'puppet:///modules/mysql/mysqld.cnf',
