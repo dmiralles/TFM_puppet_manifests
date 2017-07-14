@@ -17,7 +17,8 @@ class mysql (
         }
         service {'mysql':
                 name =>'mysql',
-                ensure => running,
+                ensure  => 'running',
+                enable  => true,
                 require => Package['mysql-server','mysql-common'],
         }
         exec { "Set mysql-password":
@@ -59,10 +60,5 @@ class mysql (
                 replace => "true",
                 source  => 'puppet:///modules/mysql/mysqld.cnf',
                 notify  => Service["mysql"],
-        }
-        service { 'mysql':
-                ensure  => 'running',
-                enable  => true,
-                require => Package["mysql-server"],
         }
 }
