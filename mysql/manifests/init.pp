@@ -32,7 +32,7 @@ class mysql (
         }
         exec { "Create Sonar user for database":
                 path => ["/bin", "/usr/bin"],
-                command => "mysql -u root -p$mysql_password -e \"CREATE USER '$sonar_db_user'@'localhost' IDENTIFIED BY '$sonar_db_pass'; GRANT ALL PRIVILEGES ON * . * TO '$sonar_db_user'@'localhost'; FLUSH PRIVILEGES;\"",
+                command => "mysql -u root -p$mysql_password -e \"CREATE USER '$sonar_db_user'@'%' IDENTIFIED BY '$sonar_db_pass'; GRANT ALL PRIVILEGES ON * . * TO '$sonar_db_user'@'%'; FLUSH PRIVILEGES;\"",
                 require => Exec["Create Sonar database"],
         }
         exec {"Create OSPOS database":
@@ -41,7 +41,7 @@ class mysql (
         }
         exec { "Create OSPOS user for database":
                 path => ["/bin", "/usr/bin"],
-                command => "mysql -u root -p$mysql_password -e \"CREATE USER '$ospos_db_user'@'localhost' IDENTIFIED BY '$ospos_db_pass'; GRANT ALL PRIVILEGES ON * . * TO '$ospos_db_user'@'localhost'; FLUSH PRIVILEGES;\"",
+                command => "mysql -u root -p$mysql_password -e \"CREATE USER '$ospos_db_user'@'%' IDENTIFIED BY '$ospos_db_pass'; GRANT ALL PRIVILEGES ON * . * TO '$ospos_db_user'@'%'; FLUSH PRIVILEGES;\"",
                 require => Exec["Create OSPOS database"],
         }
         file {"/tmp/database.sql":
