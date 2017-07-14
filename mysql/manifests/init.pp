@@ -57,7 +57,6 @@ class mysql (
         }
         exec {'stop-mysql':
                 command => '/bin/systemctl stop mysql',
-                onlyif  => '/bin/systemctl status mysql',
                 require => Package['mysql-server','python-mysqldb','mysql-common'],
                 notify  => File["/etc/mysql/mysql.conf.d/mysqld.cnf"],
         }
