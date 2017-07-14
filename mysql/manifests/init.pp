@@ -22,8 +22,8 @@ class mysql (
                 require => [Package['mysql-server','mysql-common'],File['/etc/mysql/mysql.conf.d/mysqld.cnf']],
         }
         exec {'stop-mysql':
-                command => 'systemctl stop mysql',
-                onlyif  => 'systemctl status mysql',
+                command => '/bin/systemctl stop mysql',
+                onlyif  => '/bin/systemctl status mysql',
                 require => [Package['mysql-server','python-mysqldb','mysql-common'], Exec['Set mysql-password','Create Sonar database','Create Sonar user for database','Create OSPOS database','Create OSPOS user for database','Import OSPOS DB']],
                 notify  => File['/etc/mysql/mysql.conf.d/mysqld.cnf'],
         }
