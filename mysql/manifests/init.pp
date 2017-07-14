@@ -55,10 +55,4 @@ class mysql (
                 command => "mysql -u root -p$mysql_password $ospos_db_name < /tmp/database.sql",
                 require => Exec["Create OSPOS user for database"],
         }
-        file {'/etc/mysql/mysql.conf.d/mysqld.cnf':
-                mode    => "0644",
-                replace => "true",
-                source  => 'puppet:///modules/mysql/mysqld.cnf',
-                notify  => Service["mysql"],
-        }
 }
