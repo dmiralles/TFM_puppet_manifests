@@ -59,6 +59,6 @@ class mysql (
                 mode    => "0644",
                 replace => "true",
                 source  => 'puppet:///modules/mysql/mysqld.cnf',
-                notify  => Service["mysqld"],
+                notify  => Service["mysql"],
         }
 }
