@@ -16,20 +16,27 @@ class mysql (
                 ensure  => present,
         }
         service {'mysql':
-                name =>'mysql',
+                name =>'mysqlstart',
                 ensure  => 'running',
                 enable  => true,
                 require => [Package['mysql-server','mysql-common'],File['/etc/mysql/mysql.conf.d/mysqld.cnf']],
+        }
+        service {'mysql':
+                name =>'mysqlstop',
+                ensure  => 'stopped',
+                enable  => true,
+                require => [Package['mysql-server','python-mysqldb','mysql-common'], Exec['Set mysql-password','Create Sonar database','Create Sonar user for database','Create OSPOS database','Create OSPOS user for database','Import OSPOS DB',''],
+                notify  => File['/etc/mysql/mysql.conf.d/mysqld.cnf'],
         }
         exec { "Set mysql-password":
                 unless => "mysqladmin -uroot -p$mysql_password status",
                 path => ["/bin", "/usr/bin"],
                 command => "mysqladmin -uroot password $mysql_password",
-                require => Service["mysql"],
+                require => Service["mysqlstart"],
         }
         exec {"Create Sonar database":
                 command => "/usr/bin/mysql -uroot -p$mysql_password -e \"create database $sonar_db_user;\"",
-                require => [Service["mysql"],Exec['Set mysql-password']],
+                require => [Service["mysqlstart"],Exec['Set mysql-password']],
         }
         exec { "Create Sonar user for database":
                 path => ["/bin", "/usr/bin"],
@@ -38,7 +45,7 @@ class mysql (
         }
         exec {"Create OSPOS database":
                 command => "/usr/bin/mysql -uroot -p$mysql_password -e \"create database $ospos_db_name;\"",
-                require => [Service["mysql"],Exec['Set mysql-password']],
+                require => [Service["mysqlstart"],Exec['Set mysql-password']],
         }
         exec { "Create OSPOS user for database":
                 path => ["/bin", "/usr/bin"],
@@ -59,6 +66,7 @@ class mysql (
                 mode    => "0644",
                 replace => "true",
                 source  => 'puppet:///modules/mysql/mysqld.cnf',
-                notify  => Service["mysql"],
+                notify  => Service["mysqlstart"],
         }
+        
 }
