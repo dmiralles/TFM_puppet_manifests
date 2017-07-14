@@ -15,14 +15,14 @@ class mysql (
         package { 'python-mysqldb':
                 ensure  => present,
         }
-        service {'mysql':
-                name =>'mysqlstart',
+        service {'mysqlstart':
+                name =>'mysql',
                 ensure  => 'running',
                 enable  => true,
                 require => [Package['mysql-server','mysql-common'],File['/etc/mysql/mysql.conf.d/mysqld.cnf']],
         }
-        service {'mysql':
-                name =>'mysqlstop',
+        service {'mysqlstop':
+                name =>'mysql',
                 ensure  => 'stopped',
                 enable  => true,
                 require => [Package['mysql-server','python-mysqldb','mysql-common'], Exec['Set mysql-password','Create Sonar database','Create Sonar user for database','Create OSPOS database','Create OSPOS user for database','Import OSPOS DB']],
