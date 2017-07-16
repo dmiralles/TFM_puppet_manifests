@@ -23,4 +23,9 @@ class subversion (
           cwd     => "/tmp",
           require => File["$svn_dir"],
   }
+  exec { "Create Repository":
+          command => "/usr/bin/a2enmod dav_svn",
+          cwd     => "/tmp",
+          require => File["Create Repository"],
+  }
 }
