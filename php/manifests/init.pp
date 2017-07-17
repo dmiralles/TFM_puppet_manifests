@@ -1,10 +1,6 @@
 class php {
-        exec {'Get php5':
-                command => '/usr/bin/add-apt-repository -y ppa:ondrej/php',
-        }
         exec {'Update repos':
                 command => '/usr/bin/apt-get update',
-                require => Exec["Get php5"],
         }
         package {'php5':
                 ensure  => present,
