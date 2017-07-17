@@ -10,9 +10,9 @@ svn checkout file:///opt/subversion
 cd /opt/subversion/subversion/ospos
 #Empaquetando OSPOS con version de PR
 PR_NUMBER=1
-cd /opt/subversion
+cd /opt/subversion/subversion/ospos
 echo "Compressing code"
-tar -zcvf opensourcepos-${PR_NUMBER}.tar.gz -C /tmp/ospos .
+tar -zcf opensourcepos-${PR_NUMBER}.tar.gz -C /tmp/ospos .
 echo "Compressed file completed"
 
 #Envio a SVN el paquete instalando cliente
