@@ -1,7 +1,16 @@
 class subversion (
-        $svn_dir = '/opt/subversion'
+        $svn_dir  = '/opt/subversion'
+        $svnuser  = 'svn',
+        $svngroup = 'svn', 
   ){
   require apache
+  group { "$svngroup":
+        ensure => present,
+  }
+  user { "$svnuser":
+        ensure => present,
+        groups => "$svngroup",
+  }
   package { 'subversion':
     ensure  => present,
   }
@@ -16,12 +25,17 @@ class subversion (
   }
   file {"$svn_dir":
     ensure => 'directory',
+    owner  => "$svnuser",
+    group  => "$svngroup",
     recurse => true,
     require => [Package["subversion"],Package["libapache2-svn"],Package["libapache2-mod-svn"],Package["libsvn-dev"]],
   }
   file {"$svn_dir/conf/svnserve.conf":
           ensure  => present,
           replace => true,
+          owner  => "$svnuser",
+          group  => "$svngroup",
+          mode   => "0755",
           source  => 'puppet:///modules/subversion/svnserve.conf',
           require => [File["$svn_dir"],Exec["Create Repository"]],
   }
@@ -42,6 +56,8 @@ class subversion (
   file {"/etc/apache2/mods-available/dav_svn.conf":
           ensure  => present,
           replace => true,
+          owner  => "$svnuser",
+          group  => "$svngroup",
           content => template("subversion/dav_svn.conf.erb"),
           require => Exec["Enable a2enmod"],
   }
