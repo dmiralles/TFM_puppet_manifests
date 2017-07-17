@@ -55,7 +55,7 @@ class subversion (
   }
   exec { "Subversion as daemon":
           command => "/usr/bin/svnserve -d -r /opt/subversion",
-          require => [File["$svn_dir/conf/svnserve.conf"], Exec["Create Repository"],File["$svn_dir/conf/passwd"],File["/root/.subversion/servers"]],
+          require => [File["$svn_dir/conf/svnserve.conf"], Exec["Create Repository"],File["$svn_dir/conf/passwd"],File["/etc/subversion/servers"]],
   }
   exec { "Enable a2enmod":
           command => "/usr/sbin/a2enmod dav_svn",
