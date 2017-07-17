@@ -64,7 +64,10 @@ class mysql (
                 mode    => "0644",
                 replace => "true",
                 source  => 'puppet:///modules/mysql/mysqld.cnf',
-                notify  => Service["mysql"],
+                notify  => Exec["restart-mysql"],
         }
-        
+        exec {'restart-mysql':
+                command => '/bin/systemctl restart mysql',
+                require => Package['mysql-server','python-mysqldb','mysql-common'],
+        }        
 }
