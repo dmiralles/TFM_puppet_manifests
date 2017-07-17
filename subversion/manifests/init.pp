@@ -20,7 +20,7 @@ class subversion (
   }
   file {"$svn_dir/conf/svnserve.conf":
           ensure  => present,
-          replate => true,
+          replace => true,
           source  => 'puppet:///modules/subversion/svnserve.conf',
           require => Exec["$svn_dir"],
   }
