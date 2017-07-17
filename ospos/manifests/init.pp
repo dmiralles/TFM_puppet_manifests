@@ -1,6 +1,6 @@
 class ospos (
   $install_dir    = '/var/www/html',
-  $version        = '3.0.2',
+  $version        = 'latest',
   $ospos_db_url   = 'puppetagent-mysql.tfm',
   $ospos_db_user  = 'osposuser',
   $ospos_db_pass  = 'ospospass',
@@ -9,7 +9,7 @@ class ospos (
   include php
   include apache
   exec {'Download OSPOS package':
-    command => "/usr/bin/wget https://github.com/jekkos/opensourcepos/archive/$version.tar.gz",
+    source => "http://puppetagent-subversion.tfm/svn/ospos/opensourcepos-$version.tar.gz",
     cwd     => '/tmp',
   }
   exec {'Uncompress OSPOS package':
