@@ -1,5 +1,5 @@
 class subversion (
-        $svn_dir  = '/opt/subversion'
+        $svn_dir  = '/opt/subversion',
         $svnuser  = 'svn',
         $svngroup = 'svn', 
   ){
