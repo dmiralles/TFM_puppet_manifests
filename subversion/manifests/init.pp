@@ -44,9 +44,18 @@ class subversion (
           cwd     => "/tmp",
           require => File["$svn_dir"],
   }
+    file {"$svn_dir/conf/passwd":
+          ensure  => present,
+          replace => true,
+          owner  => "$svnuser",
+          group  => "$svngroup",
+          mode   => "0755",
+          source  => 'puppet:///modules/subversion/passwd',
+          require => [File["$svn_dir"],Exec["Create Repository"]],
+  }
   exec { "Subversion as daemon":
-          command => "/usr/bin/svnserve -d --listen-port 3908 --listen-host 0.0.0.0 -r /opt/subversion",
-          require => [File["$svn_dir/conf/svnserve.conf"], Exec["Create Repository"]],
+          command => "/usr/bin/svnserve -d -r /opt/subversion",
+          require => [File["$svn_dir/conf/svnserve.conf"], Exec["Create Repository"],File["$svn_dir/conf/passwd"]],
   }
   exec { "Enable a2enmod":
           command => "/usr/sbin/a2enmod dav_svn",
