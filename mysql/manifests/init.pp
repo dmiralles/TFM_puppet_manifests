@@ -17,7 +17,7 @@ class mysql (
         }
         service {'mysql':
                 name =>'mysql',
-                ensure  => 'running',
+                ensure  => running,
                 enable  => true,
                 require => Package['mysql-server','python-mysqldb','mysql-common'],
         }
