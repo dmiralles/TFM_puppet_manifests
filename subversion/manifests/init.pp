@@ -1,6 +1,7 @@
 class subversion (
         $svn_dir = '/opt/subversion'
   ){
+  require apache
   package { 'subversion':
     ensure  => present,
   }
