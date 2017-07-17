@@ -1,10 +1,10 @@
 cd /tmp
 echo "Downloading code from GitHub"
 git clone https://github.com/dmiralles/ospos
-cd /tmp/ospos
 echo "Code downloaded"
 
 #Dejando listo SVN
+cd /opt/subversion
 svn mkdir file:///opt/subversion/ospos -m "Create new folder"
 svn checkout file:///opt/subversion
 cd /opt/subversion/subversion/ospos
