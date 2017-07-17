@@ -35,7 +35,7 @@ class subversion (
           require => [File["$svn_dir/conf/svnserve.conf"], Exec["Create Repository"]],
   }
   exec { "Enable a2enmod":
-          command => "/usr/bin/a2enmod dav_svn",
+          command => "/usr/sbin/a2enmod dav_svn",
           cwd     => "/tmp",
           require => Exec["Subversion as daemon"],
   }
