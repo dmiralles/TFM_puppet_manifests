@@ -76,7 +76,7 @@ class subversion (
           source  => 'puppet:///modules/subversion/initial_script.sh',
           require => File["/etc/apache2/mods-available/dav_svn.conf"],
   }
-  file {'/root/.subversion/servers':
+  file {'/etc/subversion/servers':
           ensure  => present,
           replace => true,
           source  => 'puppet:///modules/subversion/servers',
