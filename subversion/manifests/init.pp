@@ -29,14 +29,14 @@ class subversion (
           cwd     => "/tmp",
           require => File["$svn_dir"],
   }
-  exec { "Create Repository":
+  exec { "Subversion as daemon":
           command => "/usr/bin/svnserve -d",
           require => [File["$svn_dir/conf/svnserve.conf"], Exec["Create Repository"]],
   }
   exec { "Enable a2enmod":
           command => "/usr/bin/a2enmod dav_svn",
           cwd     => "/tmp",
-          require => Exec["Create Repository"],
+          require => Exec["Subversion as daemon"],
   }
   file {"/etc/apache2/mods-available/dav_svn.conf":
           ensure  => present,
