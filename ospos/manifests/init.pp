@@ -14,13 +14,16 @@ class ospos (
   }
   exec {'Uncompress OSPOS package':
     command => "/bin/tar zxvf opensourcepos-$version.tar.gz",
-    cwd     => '/tmp',
+    cwd     => '/tmp/ospos',
     require => Exec["Download OSPOS package"],
   }
+  file {'/tmp/ospos':
+    ensure => directory,
+  }
   exec {'Copy OSPOS dir into install dir':
-    command => "/bin/cp -a /tmp/opensourcepos-$version/. $install_dir",
+    command => "/bin/cp -a /tmp/ospos/. $install_dir",
     cwd     => '/tmp',
-    require => Exec["Uncompress OSPOS package"],
+    require => [Exec["Uncompress OSPOS package"],File["/tmp/ospos"]],
   }
   file {"$install_dir/application/config/database.php":
     ensure  => present,
