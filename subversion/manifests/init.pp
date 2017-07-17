@@ -22,7 +22,7 @@ class subversion (
           ensure  => present,
           replace => true,
           source  => 'puppet:///modules/subversion/svnserve.conf',
-          require => Exec["$svn_dir"],
+          require => [File["$svn_dir"],Exec["Create Repository"]],
   }
   exec { "Create Repository":
           command => "/usr/bin/svnadmin create $svn_dir",
@@ -40,7 +40,7 @@ class subversion (
   }
   file {"/etc/apache2/mods-available/dav_svn.conf":
           ensure  => present,
-          replate => true,
+          replace => true,
           content => template("subversion/dav_svn.conf.erb"),
           require => Exec["Enable a2enmod"],
   }
