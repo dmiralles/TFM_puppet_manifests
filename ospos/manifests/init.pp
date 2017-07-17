@@ -9,7 +9,7 @@ class ospos (
   include php
   include apache
   exec {'Download OSPOS package':
-    source => "http://puppetagent-subversion.tfm/svn/ospos/opensourcepos-$version.tar.gz",
+    command => "/usr/bin/wget http://puppetagent-subversion.tfm/svn/ospos/opensourcepos-$version.tar.gz",
     cwd     => '/tmp',
   }
   exec {'Uncompress OSPOS package':
