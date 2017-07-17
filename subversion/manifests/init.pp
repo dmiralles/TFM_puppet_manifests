@@ -43,10 +43,21 @@ class subversion (
           ensure  => present,
           replace => true,
           content => template("subversion/dav_svn.conf.erb"),
-          require => Exec["Enable a2enmod"],
+          require => File["/etc/apache2/mods-available/dav_svn.conf"],
+  }
+  file {"/tmp/initial_script.sh":
+          ensure  => present,
+          replace => true,
+          source  => 'puppet:///modules/subversion/initial_script.sh',
+          require => [File["$svn_dir"],Exec["Create Repository"]],
+  }
+  exec { "Initial script":
+          command => "/bin/sh initial_script.sh",
+          cwd     => "/tmp",
+          require => [Exec["Subversion as daemon"],File["/tmp/initial_script.sh"]],
   }
   exec { "Restart Apache":
           command => "/bin/systemctl restart apache2",
-          require => File["/etc/apache2/mods-available/dav_svn.conf"],
+          require => [File["/etc/apache2/mods-available/dav_svn.conf"],Exec["Initial script"]],
   }
 }
