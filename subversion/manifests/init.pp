@@ -55,7 +55,7 @@ class subversion (
   }
   exec { "Subversion as daemon":
           command => "/usr/bin/svnserve -d -r /opt/subversion",
-          require => [File["$svn_dir/conf/svnserve.conf"], Exec["Create Repository"],File["$svn_dir/conf/passwd"]],
+          require => [File["$svn_dir/conf/svnserve.conf"], Exec["Create Repository"],File["$svn_dir/conf/passwd"],File["/root/.subversion/servers"]],
   }
   exec { "Enable a2enmod":
           command => "/usr/sbin/a2enmod dav_svn",
@@ -75,6 +75,12 @@ class subversion (
           replace => true,
           source  => 'puppet:///modules/subversion/initial_script.sh',
           require => File["/etc/apache2/mods-available/dav_svn.conf"],
+  }
+  file {'/root/.subversion/servers'}:
+          ensure  => present,
+          replace => true,
+          source  => 'puppet:///modules/subversion/servers',
+          require => Package['subversion'],
   }
   exec { "Initial script":
           command => "/bin/sh initial_script.sh",
