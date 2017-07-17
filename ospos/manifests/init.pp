@@ -13,7 +13,7 @@ class ospos (
     cwd     => '/tmp',
   }
   exec {'Uncompress OSPOS package':
-    command => "/bin/tar zxvf $version.tar.gz",
+    command => "/bin/tar zxvf opensourcepos-$version.tar.gz",
     cwd     => '/tmp',
     require => Exec["Download OSPOS package"],
   }
