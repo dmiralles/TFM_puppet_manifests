@@ -54,7 +54,7 @@ class subversion (
           require => [File["$svn_dir"],Exec["Create Repository"]],
   }
   exec { "Subversion as daemon":
-          command => "/usr/bin/svnserve -d -r /opt/subversion",
+          command => "/usr/bin/svnserve -d --listen-host 0.0.0.0 -r /opt/subversion",
           require => [File["$svn_dir/conf/svnserve.conf"], Exec["Create Repository"],File["$svn_dir/conf/passwd"],File["/etc/subversion/servers"]],
   }
   exec { "Enable a2enmod":
