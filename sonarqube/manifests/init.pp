@@ -3,7 +3,7 @@ class sonarqube (
   $sonar_db_name = 'sonardb',
   $sonar_db_user = 'sonaruser',
   $sonar_db_pass = 'sonarpass',
-  $sonar_db_url  = 'puppeagent-mysql.tfm',
+  $sonar_db_url  = 'puppetagent-mysql.tfm',
 ){
   exec {"add ppa":
     command => "/usr/bin/add-apt-repository ppa:openjdk-r/ppa",
