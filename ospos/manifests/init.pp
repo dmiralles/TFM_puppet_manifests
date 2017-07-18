@@ -7,7 +7,7 @@ class ospos (
   $ospos_db_name  = 'osposdb',
 ){
   require php
-  require apache
+  include apache
   exec {'Download OSPOS package':
     command => "/usr/bin/wget http://puppetagent-subversion.tfm/svn/ospos/opensourcepos-$version.tar.gz",
     cwd     => '/tmp',
@@ -34,30 +34,26 @@ class ospos (
         mode    => "0644",
         replace => "true",
         source  => 'puppet:///modules/ospos/.htaccess_root',
-        require => Exec["Copy OSPOS dir into install dir"],
+        require => File["$install_dir/application/config/database.php"],
   }
   file { "$install_dir/public/.htaccess":
-        owner   => 'www-data',
-        group   => 'www-data',
-        mode    => '0755',
+        mode    => "0644",
         replace => "true",
         source  => 'puppet:///modules/ospos/.htaccess_public',
-        require => Exec["Copy OSPOS dir into install dir"],
+        require => File["$install_dir/.htaccess"],
   }
   file {"/etc/apache2/apache2.conf":
         ensure  => present,
-        owner   => 'www-data',
-        group   => 'www-data',
-        mode    => '0755',
         replace => "true",
         content => template("ospos/apache2.conf.erb"),
+        require => Class["apache"],
   }
-  File {"$install_dir":
+  file {"$install_dir":
         owner   => 'www-data',
         group   => 'www-data',
         mode    => '0755',
         recurse => true,
-        require => [Exec["Copy OSPOS dir into install dir"],File["$install_dir/application/config/database.php"],File["$install_dir/.htaccess"],File["$install_dir/public/.htaccess"]],
+        require => Exec["Copy OSPOS dir into install dir"],
   }
   exec {'restart apache':
     command => "/bin/systemctl restart apache2",
