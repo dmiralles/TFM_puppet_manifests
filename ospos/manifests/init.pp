@@ -57,6 +57,6 @@ class ospos (
   }
   exec {'restart apache':
     command => "/bin/systemctl restart apache2",
-    require => [File["/etc/apache2/apache2.conf"],File["$install_dir"]],
+    require => [File["/etc/apache2/apache2.conf"],File["$install_dir/public"]],
   }
 }
