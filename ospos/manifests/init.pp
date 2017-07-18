@@ -48,7 +48,7 @@ class ospos (
         content => template("ospos/apache2.conf.erb"),
         require => Class["apache"],
   }
-  file {"$install_dir":
+  file {"$install_dir/public":
         owner   => 'www-data',
         group   => 'www-data',
         mode    => '0755',
