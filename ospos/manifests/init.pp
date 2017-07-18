@@ -37,13 +37,18 @@ class ospos (
         require => Exec["Copy OSPOS dir into install dir"],
   }
   file { "$install_dir/public/.htaccess":
-        mode    => "0644",
+        owner   => 'www-data',
+        group   => 'www-data',
+        mode    => '0755',
         replace => "true",
         source  => 'puppet:///modules/ospos/.htaccess_public',
         require => Exec["Copy OSPOS dir into install dir"],
   }
   file {"/etc/apache2/apache2.conf":
         ensure  => present,
+        owner   => 'www-data',
+        group   => 'www-data',
+        mode    => '0755',
         replace => "true",
         content => template("ospos/apache2.conf.erb"),
   }
