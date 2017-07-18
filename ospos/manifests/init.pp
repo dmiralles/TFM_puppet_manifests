@@ -47,8 +47,15 @@ class ospos (
         replace => "true",
         content => template("ospos/apache2.conf.erb"),
   }
+  File {"$install_dir":
+        owner   => 'www-data',
+        group   => 'www-data',
+        mode    => '0755',
+        recurse => true,
+        require => [Exec["Copy OSPOS dir into install dir"],File["$install_dir/application/config/database.php"],File["$install_dir/.htaccess"],File["$install_dir/public/.htaccess"]],
+  }
   exec {'restart apache':
     command => "/bin/systemctl restart apache2",
-    require => File["/etc/apache2/apache2.conf"],
+    require => [File["/etc/apache2/apache2.conf"],File["$install_dir"]],
   }
 }
