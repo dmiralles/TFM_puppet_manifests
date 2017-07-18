@@ -12,13 +12,13 @@ class ospos (
     command => "/usr/bin/wget http://puppetagent-subversion.tfm/svn/ospos/opensourcepos-$version.tar.gz",
     cwd     => '/tmp',
   }
-  exec {'Uncompress OSPOS package':
-    command => "/bin/tar zxvf opensourcepos-$version.tar.gz",
-    cwd     => '/tmp/ospos',
-    require => Exec["Download OSPOS package"],
-  }
   file {'/tmp/ospos':
     ensure => directory,
+  }
+  exec {'Uncompress OSPOS package':
+    command => "/bin/tar zxvf /tmp/opensourcepos-$version.tar.gz",
+    cwd     => '/tmp/ospos',
+    require => [Exec["Download OSPOS package"],File["/tmp/ospos"],
   }
   exec {'Copy OSPOS dir into install dir':
     command => "/bin/cp -a /tmp/ospos/. $install_dir",
