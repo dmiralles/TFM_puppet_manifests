@@ -11,7 +11,6 @@ class mysql::config (
                 unless => "mysqladmin -uroot -p$mysql_password status",
                 path => ["/bin", "/usr/bin"],
                 command => "mysqladmin -uroot password $mysql_password",
-                require => Class["mysql::install"],
         }
         exec {"Create Sonar database":
                 command => "/usr/bin/mysql -uroot -p$mysql_password -e \"create database $sonar_db_name;\"",
