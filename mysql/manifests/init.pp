@@ -39,7 +39,7 @@ class mysql (
         }
         exec {"Create OSPOS database":
                 command => "/usr/bin/mysql -uroot -p$mysql_password -e \"create database $ospos_db_name;\"",
-                require => [Service["mysql"],Exec['Set mysql-password']],
+                require => Exec['Set mysql-password'],
         }
         exec { "Create OSPOS user for database":
                 path => ["/bin", "/usr/bin"],
@@ -65,10 +65,6 @@ class mysql (
                 mode    => "0644",
                 replace => "true",
                 source  => 'puppet:///modules/mysql/mysqld.cnf',
-                notify  => Exec["restart-mysql"],
-        }
-        exec {'restart-mysql':
-                command => '/bin/systemctl restart mysql',
-                require => Package['mysql-server','python-mysqldb','mysql-common'],
-        }        
+                notify  => Service["mysql"],
+        }     
 }
