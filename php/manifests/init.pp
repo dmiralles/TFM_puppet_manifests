@@ -18,4 +18,24 @@ class php {
                 ensure => present,
                 require => Exec["Update repos"],
         }
+        package {'php5.6-bcmath':
+                ensure => present,
+                require => Exec["Update repos"],
+        }
+        package {'php5.6-gd':
+                ensure => present,
+                require => Exec["Update repos"],
+        }
+        package {'php5.6-intl':
+                ensure => present,
+                require => Exec["Update repos"],
+        }
+        package {'php5.6-sockets':
+                ensure => present,
+                require => Exec["Update repos"],
+        }
+        package {'php5.6-curl':
+                ensure => present,
+                require => Exec["Update repos"],
+        }        
 }
