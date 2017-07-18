@@ -1,6 +1,7 @@
 class mysql (
         $mysql_password = 'adminpass',
-        $sonar_db_user  = 'sonardb',
+        $sonar_db_name  = 'sonardb',
+        $sonar_db_user  = 'sonaruser',
         $sonar_db_pass  = 'sonarpass',
         $ospos_db_user  = 'osposuser',
         $ospos_db_pass  = 'ospospass',
@@ -28,7 +29,7 @@ class mysql (
                 require => Service["mysql"],
         }
         exec {"Create Sonar database":
-                command => "/usr/bin/mysql -uroot -p$mysql_password -e \"create database $sonar_db_user;\"",
+                command => "/usr/bin/mysql -uroot -p$mysql_password -e \"create database $sonar_db_name;\"",
                 require => [Service["mysql"],Exec['Set mysql-password']],
         }
         exec { "Create Sonar user for database":
