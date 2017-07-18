@@ -6,8 +6,8 @@ class ospos (
   $ospos_db_pass  = 'ospospass',
   $ospos_db_name  = 'osposdb',
 ){
-  include php
-  include apache
+  require php
+  require apache
   exec {'Download OSPOS package':
     command => "/usr/bin/wget http://puppetagent-subversion.tfm/svn/ospos/opensourcepos-$version.tar.gz",
     cwd     => '/tmp',
@@ -41,5 +41,14 @@ class ospos (
         replace => "true",
         source  => 'puppet:///modules/ospos/.htaccess_public',
         require => Exec["Copy OSPOS dir into install dir"],
+  }
+  file {"/etc/apache2/apache2.conf":
+        ensure  => present,
+        replace => "true",
+        content => template("ospos/apache2.conf.erb"),
+  }
+  exec {'restart apache':
+    command => "/bin/systemctl restart apache2",
+    require => File["/etc/apache2/apache2.conf"],
   }
 }
