@@ -1,8 +1,10 @@
-class ospos::maintenance {
-  file {'/tmp/ospos':
-        ensure  => absent,
+class ospos::maintenance(
+  $version = 'latest',
+){
+  Exec {'Remove working path':
+        command => '/bin/rm -rf /tmp/ospos',
   }
   file {'/tmp/opensourcepos-$version.tar.gz':
-        ensure  => absent,       
+        command => '/bin/rm -rf /tmp/opensourcepos-$version.tar.gz'.       
   }
 }
