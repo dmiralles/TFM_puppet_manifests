@@ -5,6 +5,6 @@ class ospos::maintenance(
         command => '/bin/rm -rf /tmp/ospos',
   }
   exec {'Remove previous package':
-        command => '/bin/rm -rf /tmp/opensourcepos-$version.tar.gz',      
+        command => "/bin/rm -rf /tmp/opensourcepos-$version.tar.gz",      
   }
 }
