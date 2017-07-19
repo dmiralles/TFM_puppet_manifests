@@ -1,6 +1,6 @@
 class mysql {
-        Class["install"]~>
-        Class["config"]~>
-        Class["custom"]~>
-        Class["service"]
+        class{'mysql::install':}->
+        class{'mysql::config':}->
+        class{'mysql::custom':}->
+        class{'mysql::service':}
 }
