@@ -21,7 +21,7 @@ class ospos (
     require => [Exec["Download OSPOS package"],File["/tmp/ospos"]],
   }
   exec {'Copy OSPOS dir into install dir':
-    command => "/bin/cp -a /tmp/ospos/. $install_dir",
+    command => "/bin/cp -rfa /tmp/ospos/. $install_dir",
     cwd     => '/tmp',
     require => [Exec["Uncompress OSPOS package"],File["/tmp/ospos"]],
   }
@@ -58,5 +58,13 @@ class ospos (
   exec {'restart apache':
     command => "/bin/systemctl restart apache2",
     require => [File["/etc/apache2/apache2.conf"],File["$install_dir/public"]],
+  }
+  file {'/tmp/ospos':
+        ensure  => absent,
+        require => Exec["Copy OSPOS dir into install dir"], 
+  }
+  file {'/tmp/opensourcepos-$version.tar.gz':
+        ensure  => absent,
+        require => Exec["Copy OSPOS dir into install dir"],        
   }
 }
