@@ -4,7 +4,7 @@ class ospos::maintenance(
   Exec {'Remove working path':
         command => '/bin/rm -rf /tmp/ospos',
   }
-  file {'/tmp/opensourcepos-$version.tar.gz':
+  file {'Remove previous package':
         command => '/bin/rm -rf /tmp/opensourcepos-$version.tar.gz'.       
   }
 }
