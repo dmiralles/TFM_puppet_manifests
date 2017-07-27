@@ -10,7 +10,7 @@ class nginx {
                 ensure  => present,
                 replace => true,
                 source  => 'puppet:///modules/nginx/default',
-                require => [Service["nginx"],Package["nginx"]],
+                require => Package["nginx"],
                 notify  => Service["nginx"], 
         }
 }
