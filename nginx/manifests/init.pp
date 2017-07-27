@@ -8,6 +8,7 @@ class nginx {
         }
         file {'/etc/nginx/sites-available/default':
                 ensure  => present,
+                replace => true,
                 source  => 'puppet:///modules/nginx/default',
                 require => [Service["nginx"],Package["nginx"]],
                 notify  => Service["nginx"], 
