@@ -6,10 +6,10 @@ class nginx {
                 ensure => running,
                 require => Package['nginx'],
         }
-        file {'/etc/nginx/nginx.conf':
+        file {'/etc/nginx/sites-available/nginx.conf':
                 ensure  => present,
                 replace => true,
-                source  => 'puppet:///modules/nginx/nginx.conf',
+                source  => 'puppet:///modules/nginx/default',
                 require => Package["nginx"],
                 notify  => Service["nginx"], 
         }
