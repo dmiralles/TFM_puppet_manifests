@@ -1,0 +1,12 @@
+upstream ospos1_public_ip {
+                least_conn;
+                server ospos1_public_ip;
+                server ospos2_public_ip;
+}
+server {
+                listen 80;
+
+                location / {
+                    proxy_pass http://ospos1_public_ip;
+                }
+}
