@@ -21,7 +21,7 @@ class ospos::install (
     require => [Exec["Download OSPOS package"],File["/tmp/ospos"]],
   }
   exec {'Copy OSPOS dir into install dir':
-    command => "yes | /bin/cp -Rfa /tmp/ospos/. $install_dir",
+    command => "/bin/cp -Rfa /tmp/ospos/. $install_dir",
     cwd     => '/tmp',
     require => [Exec["Uncompress OSPOS package"],File["/tmp/ospos"]],
   }
